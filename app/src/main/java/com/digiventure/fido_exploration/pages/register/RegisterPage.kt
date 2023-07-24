@@ -26,7 +26,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.digiventure.fido_exploration.util.getApkKeyHash
 import com.google.android.gms.fido.Fido
 import com.google.android.gms.fido.fido2.api.common.AuthenticatorErrorResponse
 import com.google.android.gms.fido.fido2.api.common.PublicKeyCredential
@@ -40,6 +42,8 @@ fun RegisterPage(
     viewModel: RegisterViewModel
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     val launchPendingIntent = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
@@ -107,6 +111,7 @@ fun RegisterPage(
                 },
                 onClick = {
                     register()
+//                    getApkKeyHash(context)?.let { Log.d("hash", it) }
                 })
         },
         content = { contentPadding ->
