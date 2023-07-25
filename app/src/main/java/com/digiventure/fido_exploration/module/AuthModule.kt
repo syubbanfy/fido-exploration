@@ -28,7 +28,7 @@ class AuthModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("https://6494-118-136-123-211.ngrok-free.app/api/ssi/issuer/")
+            .baseUrl("https://e339-202-80-214-132.ngrok-free.app/api/ssi/issuer/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

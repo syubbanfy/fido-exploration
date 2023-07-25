@@ -1,8 +1,8 @@
 package com.digiventure.fido_exploration.api
 
-import com.digiventure.fido_exploration.model.GlitchCredentialBody
 import com.digiventure.fido_exploration.model.Option
 import com.digiventure.fido_exploration.model.RegisterCredentialBody
+import com.digiventure.fido_exploration.model.RegisterCredentialResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -23,12 +23,5 @@ interface AuthAPI {
         @Header("Authorization") bearerToken: String,
         @Header("X-APP-ORIGIN") defaultOrigin: String,
         @Body registerCredentialBody: RegisterCredentialBody
-    )
-
-    @Headers("Content-Type: application/json")
-    @POST("registerRequest")
-    suspend fun registerRequest(
-        @Header("Cookie") sessionId: String,
-        @Body glitchCredentialBody: GlitchCredentialBody
-    ): Option
+    ): RegisterCredentialResponse
 }

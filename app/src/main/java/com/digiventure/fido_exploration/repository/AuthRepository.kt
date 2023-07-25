@@ -1,6 +1,9 @@
 package com.digiventure.fido_exploration.repository
 
 import android.app.PendingIntent
+import android.util.Log
+import com.digiventure.fido_exploration.model.RegisterCredentialBody
+import com.digiventure.fido_exploration.model.RegisterCredentialResponse
 import com.digiventure.fido_exploration.service.AuthService
 import com.digiventure.fido_exploration.util.parsePublicKeyCredentialCreationOptions
 import com.google.android.gms.fido.fido2.Fido2ApiClient
@@ -43,4 +46,16 @@ class AuthRepository @Inject constructor(
             } else
                 Result.failure(it.exceptionOrNull()!!)
         }
+
+    suspend fun registerResponse(
+        token: String,
+        apiKeyHash: String,
+        body: RegisterCredentialBody
+    ): Flow<Result<RegisterCredentialResponse>> = service.registerResponse(token, apiKeyHash, body).map {
+        if (it.isSuccess) {
+            Result.success(it.getOrThrow())
+        } else {
+            Result.failure(it.exceptionOrNull() ?: Exception("Something went wrong"))
+        }
+    }
 }

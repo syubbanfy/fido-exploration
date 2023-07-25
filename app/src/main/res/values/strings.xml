@@ -2,7 +2,7 @@
     <string name="app_name">fido-exploration</string>
     <string name="asset_statements" translatable="false">
     [{
-      \"include\": \"https://webauthn-codelab.glitch.me/.well-known/assetlinks.json\"
+      \"include\": \"https://swiss-wallet.web.app/.well-known/assetlinks.json\"
     }]
     </string>
 </resources>

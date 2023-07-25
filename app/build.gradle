@@ -80,6 +80,7 @@ dependencies {
 
     // Jetpack compose material 3
     implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Unit & integration testing purpose
     testImplementation 'junit:junit:4.13.2'

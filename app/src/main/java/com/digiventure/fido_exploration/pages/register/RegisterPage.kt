@@ -2,7 +2,7 @@ package com.digiventure.fido_exploration.pages.register
 
 import android.app.Activity
 import android.content.IntentSender
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,7 +30,6 @@ import com.digiventure.fido_exploration.util.getApkKeyHash
 import com.google.android.gms.fido.Fido
 import com.google.android.gms.fido.fido2.api.common.AuthenticatorErrorResponse
 import com.google.android.gms.fido.fido2.api.common.PublicKeyCredential
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,8 +38,21 @@ fun RegisterPage(
     navHostController: NavHostController,
     viewModel: RegisterViewModel
 ) {
+    val token =
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjM4OGUzZWYwLWJhYzMtNGY1Zi1hZmE0LTRkOTNiODkwYTQzMyIsImRpZCI6ImF3ZG5ha2puZGtuMTJrIiwiaWF0IjoxNjkwMzA3Nzc0LCJleHAiOjE2OTAzOTQxNzR9.syKSVk0vRnQRWGzOnJ1lWTgDxeeZhixtjJA6ZSt1j6k"
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    fun registerCredential(credential: PublicKeyCredential) {
+        scope.launch {
+            val result =
+                viewModel.registerCredential(token, getApkKeyHash(context) ?: "", credential)
+            if (result.isSuccess) {
+                val data = result.getOrNull()
+                Toast.makeText(context, data?.status ?: "", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     val launchPendingIntent = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -48,35 +60,28 @@ fun RegisterPage(
         val bytes = result.data?.getByteArrayExtra(Fido.FIDO2_KEY_CREDENTIAL_EXTRA)
         when {
             result.resultCode != Activity.RESULT_OK ->
-                Log.e("error", "cancelled")
+                Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
 
             bytes == null ->
-                Log.e("error", "credential error")
+                Toast.makeText(context, "Credential error", Toast.LENGTH_SHORT).show()
 
             else -> {
                 val credential = PublicKeyCredential.deserializeFromBytes(bytes)
                 val response = credential.response
 
                 if (response is AuthenticatorErrorResponse) {
-                    Log.e("error auth", response.errorMessage ?: "")
+                    Toast.makeText(context, response.errorMessage ?: "", Toast.LENGTH_SHORT).show()
                 } else {
-                    Log.d("id", credential.id)
-                    Log.d("rawId", String(credential.rawId))
-                    Log.d("type", credential.type)
-                    Log.d("response", Gson().toJson(credential.response.clientDataJSON))
-                    Log.d(
-                        "clientExtensionResults",
-                        Gson().toJson(credential.clientExtensionResults)
-                    )
+                    registerCredential(credential)
                 }
             }
         }
     }
 
-    fun register() {
+    fun generateCredential() {
         scope.launch {
-            val result = viewModel.register(
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImVlYzA2YTJkLWE0OWUtNDNiOC05ZTFkLWQ5ODQwOWJiNWQxYyIsImRpZCI6ImRpZDpldGhyOjB4NUM0OEUyZjQyQUMxOTE3NjI2M0RBZkNDYjEwODcyRDVjRWExZDEwQSIsImlhdCI6MTY5MDI1NzIxOSwiZXhwIjoxNjkwMzQzNjE5fQ.uFmdlcdpwAqYIjdnmrjUwtR8IWrngUqaJwn3XlVMaEs",
+            val result = viewModel.generateCredential(
+                token,
                 getApkKeyHash(context) ?: ""
             )
             if (result.isSuccess) {
@@ -116,7 +121,7 @@ fun RegisterPage(
                     )
                 },
                 onClick = {
-                    register()
+                    generateCredential()
                 })
         },
         content = { contentPadding ->
