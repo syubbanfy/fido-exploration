@@ -14,9 +14,9 @@ class AuthService @Inject constructor(
         const val TAG = "AuthService"
     }
 
-    suspend fun registerRequest(token: String): Flow<Result<Option>> =
+    suspend fun registerRequest(token: String, apiKeyHash: String): Flow<Result<Option>> =
         flow {
-            emit(Result.success(authAPI.getOption(token)))
+            emit(Result.success(authAPI.getOption(token, apiKeyHash)))
         }.catch {
             emit(Result.failure(RuntimeException("Something went wrong")))
         }

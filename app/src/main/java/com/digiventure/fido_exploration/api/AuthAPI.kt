@@ -13,15 +13,22 @@ interface AuthAPI {
     @Headers("Content-Type: application/json")
     @GET("register")
     suspend fun getOption(
-        @Header("Authorization") bearerToken: String
+        @Header("Authorization") bearerToken: String,
+        @Header("X-APP-ORIGIN") defaultOrigin: String
     ): Option
 
     @Headers("Content-Type: application/json")
     @POST("register")
-    suspend fun registerCredential(@Body registerCredentialBody: RegisterCredentialBody)
+    suspend fun registerCredential(
+        @Header("Authorization") bearerToken: String,
+        @Header("X-APP-ORIGIN") defaultOrigin: String,
+        @Body registerCredentialBody: RegisterCredentialBody
+    )
 
     @Headers("Content-Type: application/json")
     @POST("registerRequest")
-    suspend fun registerRequest(@Header("Cookie") sessionId: String,
-                                @Body glitchCredentialBody: GlitchCredentialBody): Option
+    suspend fun registerRequest(
+        @Header("Cookie") sessionId: String,
+        @Body glitchCredentialBody: GlitchCredentialBody
+    ): Option
 }

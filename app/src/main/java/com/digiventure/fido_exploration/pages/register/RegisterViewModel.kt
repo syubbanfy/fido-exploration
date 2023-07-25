@@ -12,18 +12,19 @@ import javax.inject.Inject
 
 class RegisterViewModel @Inject constructor(
     private val authRepository: AuthRepository
-): ViewModel() {
+) : ViewModel() {
     val loader = MutableLiveData<Boolean>()
 
-    suspend fun register(token: String): Result<PendingIntent> = withContext(Dispatchers.IO) {
-        loader.postValue(true)
-        try {
-            authRepository.registerRequest(token).onEach {
+    suspend fun register(token: String, apiKeyHash: String): Result<PendingIntent> =
+        withContext(Dispatchers.IO) {
+            loader.postValue(true)
+            try {
+                authRepository.registerRequest(token, apiKeyHash).onEach {
+                    loader.postValue(false)
+                }.last()
+            } catch (e: Exception) {
                 loader.postValue(false)
-            }.last()
-        } catch (e: Exception) {
-            loader.postValue(false)
-            Result.failure(e)
+                Result.failure(e)
+            }
         }
-    }
 }

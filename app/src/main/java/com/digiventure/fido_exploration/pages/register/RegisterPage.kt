@@ -3,8 +3,6 @@ package com.digiventure.fido_exploration.pages.register
 import android.app.Activity
 import android.content.IntentSender
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -51,8 +49,10 @@ fun RegisterPage(
         when {
             result.resultCode != Activity.RESULT_OK ->
                 Log.e("error", "cancelled")
+
             bytes == null ->
                 Log.e("error", "credential error")
+
             else -> {
                 val credential = PublicKeyCredential.deserializeFromBytes(bytes)
                 val response = credential.response
@@ -64,7 +64,10 @@ fun RegisterPage(
                     Log.d("rawId", String(credential.rawId))
                     Log.d("type", credential.type)
                     Log.d("response", Gson().toJson(credential.response.clientDataJSON))
-                    Log.d("clientExtensionResults", Gson().toJson(credential.clientExtensionResults))
+                    Log.d(
+                        "clientExtensionResults",
+                        Gson().toJson(credential.clientExtensionResults)
+                    )
                 }
             }
         }
@@ -72,7 +75,10 @@ fun RegisterPage(
 
     fun register() {
         scope.launch {
-            val result = viewModel.register("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjMzMDAxOWViLWRmMWItNGE1Ni1iOGQ5LTE2NjcwMDhlMDc2NSIsImRpZCI6ImRpZDpldGhyOjB4NUM0OEUyZjQyQUMxOTE3NjI2M0RBZkNDYjEwODcyRDVjRWExZDEwQSIsImlhdCI6MTY5MDE2Mjg4NSwiZXhwIjoxNjkwMjQ5Mjg1fQ.FLSwYG8B9foHCo5oNg1PkSFjhsorok8w7X60n_TfJpc")
+            val result = viewModel.register(
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImVlYzA2YTJkLWE0OWUtNDNiOC05ZTFkLWQ5ODQwOWJiNWQxYyIsImRpZCI6ImRpZDpldGhyOjB4NUM0OEUyZjQyQUMxOTE3NjI2M0RBZkNDYjEwODcyRDVjRWExZDEwQSIsImlhdCI6MTY5MDI1NzIxOSwiZXhwIjoxNjkwMzQzNjE5fQ.uFmdlcdpwAqYIjdnmrjUwtR8IWrngUqaJwn3XlVMaEs",
+                getApkKeyHash(context) ?: ""
+            )
             if (result.isSuccess) {
                 val intent = result.getOrNull()
                 if (intent != null) {
@@ -111,7 +117,6 @@ fun RegisterPage(
                 },
                 onClick = {
                     register()
-//                    getApkKeyHash(context)?.let { Log.d("hash", it) }
                 })
         },
         content = { contentPadding ->

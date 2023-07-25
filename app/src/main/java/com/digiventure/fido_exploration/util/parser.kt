@@ -1,6 +1,5 @@
 package com.digiventure.fido_exploration.util
 
-import android.util.Log
 import com.digiventure.fido_exploration.model.AuthenticatorSelection
 import com.digiventure.fido_exploration.model.CredentialDescriptor
 import com.digiventure.fido_exploration.model.Option
@@ -16,7 +15,6 @@ import com.google.android.gms.fido.fido2.api.common.PublicKeyCredentialRpEntity
 import com.google.android.gms.fido.fido2.api.common.PublicKeyCredentialType
 import com.google.android.gms.fido.fido2.api.common.PublicKeyCredentialUserEntity
 import com.google.android.gms.identity.sample.fido2.decodeBase64
-import com.google.gson.Gson
 
 fun parsePublicKeyCredentialCreationOptions(
     body: Option
