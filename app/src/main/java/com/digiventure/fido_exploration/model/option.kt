@@ -7,13 +7,9 @@ data class Option (
     val pubKeyCredParams: List<PubKeyCredParam>,
     val timeout: Long,
     val attestation: String,
-    val excludeCredentials: List<Any?>,
+    val excludeCredentials: List<CredentialDescriptor>,
     val authenticatorSelection: AuthenticatorSelection,
     val extensions: Extensions
-)
-
-data class AuthenticatorSelection (
-    val userVerification: String
 )
 
 data class Extensions (
@@ -34,4 +30,8 @@ data class User (
     val id: String,
     val name: String,
     val displayName: String
+)
+
+data class CredentialDescriptor (
+    val id: String,
 )

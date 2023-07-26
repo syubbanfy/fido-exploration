@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">fido-exploration</string>
+    <string name="asset_statements" translatable="false">
+    [{
+      \"include\": \"https://swiss-wallet.web.app/.well-known/assetlinks.json\"
+    }]
+    </string>
 </resources>
