@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.identity.sample.fido2
+package com.digiventure.fido_exploration
 
 import android.util.Base64
 

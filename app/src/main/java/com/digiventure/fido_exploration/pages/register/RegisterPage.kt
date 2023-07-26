@@ -39,7 +39,7 @@ fun RegisterPage(
     viewModel: RegisterViewModel
 ) {
     val token =
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjM4OGUzZWYwLWJhYzMtNGY1Zi1hZmE0LTRkOTNiODkwYTQzMyIsImRpZCI6ImF3ZG5ha2puZGtuMTJrIiwiaWF0IjoxNjkwMzA3Nzc0LCJleHAiOjE2OTAzOTQxNzR9.syKSVk0vRnQRWGzOnJ1lWTgDxeeZhixtjJA6ZSt1j6k"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImIzMDFmMDNkLTQxNDktNGJiMi1hODQ0LWE4M2ZkNmRiZTE5NyIsImRpZCI6ImF3ZG5ha2puZGtuMTJrIiwiaWF0IjoxNjkwMzQ2ODA5LCJleHAiOjE2OTA0MzMyMDl9.TWzHTlDpyLqo06A4dEWX56ObSKuozQ708_Va7-CC_2k"
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 

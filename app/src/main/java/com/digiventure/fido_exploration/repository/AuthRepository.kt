@@ -1,7 +1,6 @@
 package com.digiventure.fido_exploration.repository
 
 import android.app.PendingIntent
-import android.util.Log
 import com.digiventure.fido_exploration.model.RegisterCredentialBody
 import com.digiventure.fido_exploration.model.RegisterCredentialResponse
 import com.digiventure.fido_exploration.service.AuthService

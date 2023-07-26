@@ -7,10 +7,10 @@ import com.digiventure.fido_exploration.model.RegisterCredentialBody
 import com.digiventure.fido_exploration.model.RegisterCredentialResponse
 import com.digiventure.fido_exploration.model.Response
 import com.digiventure.fido_exploration.repository.AuthRepository
+import com.digiventure.fido_exploration.toBase64
 import com.google.android.gms.fido.fido2.api.common.AuthenticatorAttestationResponse
 import com.google.android.gms.fido.fido2.api.common.PublicKeyCredential
 import com.google.android.gms.fido.fido2.api.common.PublicKeyCredentialType
-import com.google.android.gms.identity.sample.fido2.toBase64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.onEach
@@ -45,8 +45,8 @@ class RegisterViewModel @Inject constructor(
             val response = body.response as AuthenticatorAttestationResponse
 
             val requestBody = RegisterCredentialBody(
-                id = rawId,
-                rawID = rawId,
+                id = body.id,
+                rawId = rawId,
                 type = PublicKeyCredentialType.PUBLIC_KEY.toString(),
                 response = Response(
                     clientDataJSON = response.clientDataJSON.toBase64(),
